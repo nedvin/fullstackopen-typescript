@@ -36,12 +36,12 @@ const toMessage = (category: BmiCategory): string => {
   }
 };
 
-const calculateBmi = (measurements: Measurements): void => {
+const calculateBmi = (measurements: Measurements): string => {
   const lengthInMetres = measurements.length / 100;
   const bmi = measurements.weight / (lengthInMetres * lengthInMetres);
   const result = bmiToCategory(bmi);
   const message = toMessage(result);
-  console.log(message);
+  return message;
 };
 
 const isNumberGreaterThanZero = (candidate: number): boolean => {
@@ -67,7 +67,8 @@ const parseArguments = (args: string[]): Measurements => {
 };
 
 try {
-  calculateBmi(parseArguments(process.argv));
+  const result = calculateBmi(parseArguments(process.argv));
+  console.log(result);
 } catch (error: unknown) {
   if (error instanceof Error) {
     console.error("error:", error.message);
@@ -75,3 +76,5 @@ try {
   console.log("Usage: npm run bmiCalculator <length in cm> <weight in kg>");
   console.log("Example: npm run bmiCalculator 174 80");
 }
+
+export default calculateBmi;

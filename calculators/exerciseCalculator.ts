@@ -74,7 +74,7 @@ const calculateExercises = ({
   };
 };
 
-const toNumber = (value: string): number => {
+export const toNumber = (value: string): number => {
   const number = Number(value);
 
   if (isNaN(number)) {
@@ -84,12 +84,8 @@ const toNumber = (value: string): number => {
   return number;
 };
 
-const toNumbers = (values: string[]): number[] => {
+export const toNumbers = (values: string[]): number[] => {
   return values.map(toNumber);
-};
-
-const isAllNumbers = (numbers: string[]): boolean => {
-  return numbers.filter((num) => !isNaN(Number(num))).length === numbers.length;
 };
 
 const parseExerciseArguments = (args: string[]): Arguments => {
@@ -122,3 +118,5 @@ try {
   );
   console.log("Example: npm run exerciseCalculator 2 0.5 1.5");
 }
+
+export default calculateExercises;
