@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
-import { Patient } from "../../types";
+import { Diagnosis, Patient } from "../../types";
 import patientService from "../../services/patients";
+import { Typography } from "@mui/material";
+import EntryDetails from "../PatientEntry";
 
 interface PatientInfoProps {
   patientId: string | undefined;
+  diagnoses: Diagnosis[];
 }
 
-const PatientInfo = ({ patientId }: PatientInfoProps) => {
+const PatientInfo = ({ patientId, diagnoses }: PatientInfoProps) => {
   const [patient, setPatient] = useState<Patient | undefined>(undefined);
 
   useEffect(() => {
@@ -23,14 +26,20 @@ const PatientInfo = ({ patientId }: PatientInfoProps) => {
 
   return (
     <div>
-      <h2>
+      <Typography variant="h4">
         {patient.name} ({patient.gender})
-      </h2>
+      </Typography>
       <p>
         ssn: {patient.ssn}
         <br />
         occupation: {patient.occupation}
       </p>
+      <h3>entries</h3>
+      {patient.entries.map((entry) => {
+        return (
+          <EntryDetails key={entry.id} entry={entry} diagnoses={diagnoses} />
+        );
+      })}
     </div>
   );
 };

@@ -20,7 +20,7 @@ router.get("/patients/:id", (req, res) => {
     return res.status(404).send();
   }
 
-  return res.json({ ...patient, entries: [] });
+  return res.json(patient);
 });
 
 router.post("/patients", (req, res) => {

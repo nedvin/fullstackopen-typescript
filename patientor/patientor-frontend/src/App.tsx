@@ -4,7 +4,9 @@ import { Route, Link, Routes, useMatch } from "react-router-dom";
 import { Button, Divider, Container, Typography } from "@mui/material";
 
 import { apiBaseUrl } from "./constants";
-import { Patient } from "./types";
+import { Diagnosis, Patient } from "./types";
+
+import diagnosesService from "./services/diagnoses";
 
 import patientService from "./services/patients";
 import PatientListPage from "./components/PatientListPage";
@@ -12,6 +14,7 @@ import PatientInfo from "./components/PatientInfo";
 
 const App = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
+  const [diagnoses, setDiagnoses] = useState<Diagnosis[]>([]);
   const match = useMatch("/patients/:id");
   const selectedPatientId = match ? match.params.id : undefined;
 
@@ -23,6 +26,12 @@ const App = () => {
       setPatients(patients);
     };
     void fetchPatientList();
+
+    const fetchDiagnoses = async () => {
+      const diagnoses = await diagnosesService.getAll();
+      setDiagnoses(diagnoses);
+    };
+    void fetchDiagnoses();
   }, []);
 
   return (
@@ -44,7 +53,12 @@ const App = () => {
           />
           <Route
             path="/patients/:id"
-            element={<PatientInfo patientId={selectedPatientId} />}
+            element={
+              <PatientInfo
+                patientId={selectedPatientId}
+                diagnoses={diagnoses}
+              />
+            }
           />
         </Routes>
       </Container>
